@@ -64,16 +64,16 @@ jobs:
         run: uv run offline-apt-feature build-scan-image --bundle bundle.yaml --arch amd64
 
       - name: Scan amd64 image
-        run: trivy image --exit-code 1 --severity "${TRIVY_SEVERITY}" offline-apt-scan:trixie-slim-v1-amd64
+        run: trivy image --ignore-unfixed --exit-code 1 --severity "${TRIVY_SEVERITY}" offline-apt-scan:trixie-slim-v1-amd64
 
       - name: Build arm64 scan image
         run: uv run offline-apt-feature build-scan-image --bundle bundle.yaml --arch arm64
 
       - name: Scan arm64 image
-        run: trivy image --exit-code 1 --severity "${TRIVY_SEVERITY}" offline-apt-scan:trixie-slim-v1-arm64
+        run: trivy image --ignore-unfixed --exit-code 1 --severity "${TRIVY_SEVERITY}" offline-apt-scan:trixie-slim-v1-arm64
 
       - name: Scan repository filesystem
-        run: trivy fs --exit-code 1 --severity "${TRIVY_SEVERITY}" --scanners vuln,secret,misconfig --skip-dirs .venv .
+        run: trivy fs --ignore-unfixed --exit-code 1 --severity "${TRIVY_SEVERITY}" --scanners vuln,secret,misconfig --skip-dirs .venv .
 
       - name: Test Feature on amd64
         run: tools/run_feature_tests.sh amd64

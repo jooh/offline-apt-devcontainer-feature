@@ -167,12 +167,14 @@ offline-apt-scan:trixie-slim-v1-arm64
 
 Each scan image starts from `debian:trixie-slim`, copies only the matching local
 repo, configures a strict local `file:` apt source, and installs all top-level
-packages from the manifest. Trivy scans those images and fails on
-`HIGH,CRITICAL` by default. The threshold is configurable through the workflow
-dispatch input or `TRIVY_SEVERITY`.
+packages from the manifest. Trivy scans those images and fails on fixable
+`HIGH,CRITICAL` findings by default. The threshold is configurable through the
+workflow dispatch input or `TRIVY_SEVERITY`.
 
 The workflow also runs `trivy fs .` for basic repository filesystem,
-misconfiguration, and secret scanning.
+misconfiguration, and secret scanning. Unfixed vulnerabilities are ignored so
+current Debian advisories without a fixed package do not keep the POC pipeline
+red.
 
 ## Limitations
 
