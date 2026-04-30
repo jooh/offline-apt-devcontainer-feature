@@ -1,0 +1,15 @@
+distro: debian
+codename: trixie
+base_image: debian:trixie-slim
+feature_id: offline-apt
+tag: trixie-slim-v1
+architectures:
+  - amd64
+  - arm64
+packages:
+  - name: jq
+    version: null
+  - name: ripgrep
+    version: null
+  - name: shellcheck
+    version: null

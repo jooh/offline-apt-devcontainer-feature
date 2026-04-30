@@ -1,0 +1,29 @@
+{
+  "install_jq": {
+    "image": "debian:trixie-slim",
+    "features": {
+      "offline-apt": {
+        "packages": "jq",
+        "strict": true
+      }
+    }
+  },
+  "install_jq_ripgrep": {
+    "image": "debian:trixie-slim",
+    "features": {
+      "offline-apt": {
+        "packages": "jq,ripgrep",
+        "strict": true
+      }
+    }
+  },
+  "install_jq_exact_version": {
+    "image": "debian:trixie-slim",
+    "features": {
+      "offline-apt": {
+        "packages": "jq=1.7.1-6+deb13u1",
+        "strict": true
+      }
+    }
+  }
+}

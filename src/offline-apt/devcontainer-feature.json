@@ -1,0 +1,19 @@
+{
+  "id": "offline-apt",
+  "version": "1.0.0",
+  "name": "Offline apt packages for Debian trixie",
+  "description": "Installs selected packages from a bundled offline apt repository for Debian trixie.",
+  "documentationURL": "https://github.com/jooh/offline-apt-devcontainer-feature",
+  "options": {
+    "packages": {
+      "type": "string",
+      "default": "",
+      "description": "Comma-separated package specs to install, for example: jq,ripgrep,shellcheck=0.10.0-1"
+    },
+    "strict": {
+      "type": "boolean",
+      "default": true,
+      "description": "Use only the bundled local apt repository during installation."
+    }
+  }
+}
