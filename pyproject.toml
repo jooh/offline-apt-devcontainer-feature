@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "offline-apt-devcontainer-feature"
+version = "0.1.0"
+description = "Build a bundled offline apt repository for a Dev Container Feature."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "devcontainer-rs==0.0.37",
+  "pydantic>=2.7",
+  "PyYAML>=6.0.1",
+  "rich>=13.7",
+  "typer>=0.12",
+]
+
+[project.scripts]
+offline-apt-feature = "offline_apt_feature.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["tools"]
+
+[tool.pytest.ini_options]
+pythonpath = ["tools"]

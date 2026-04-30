@@ -1,0 +1,96 @@
+name: Build, scan, test, publish
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      trivy_severity:
+        description: Trivy severity threshold
+        required: false
+        default: HIGH,CRITICAL
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-scan-test-publish:
+    runs-on: ubuntu-latest
+    env:
+      TRIVY_SEVERITY: ${{ inputs.trivy_severity || 'HIGH,CRITICAL' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          enable-cache: true
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Set up ORAS
+        uses: oras-project/setup-oras@v2
+
+      - name: Install Trivy
+        uses: aquasecurity/setup-trivy@v0.2.6
+        with:
+          version: v0.70.0
+          cache: true
+
+      - name: Install Python tooling
+        run: |
+          uv python install 3.12
+          uv sync --locked
+          uv run devcontainer --version
+          trivy --version
+          oras version
+
+      - name: Validate bundle
+        run: uv run offline-apt-feature validate --bundle bundle.yaml
+
+      - name: Build bundled apt repositories
+        run: uv run offline-apt-feature build --bundle bundle.yaml
+
+      - name: Validate generated manifests
+        run: uv run python tools/validate_manifest.py --bundle bundle.yaml
+
+      - name: Build amd64 scan image
+        run: uv run offline-apt-feature build-scan-image --bundle bundle.yaml --arch amd64
+
+      - name: Scan amd64 image
+        run: trivy image --ignore-unfixed --exit-code 1 --severity "${TRIVY_SEVERITY}" offline-apt-scan:trixie-slim-v1-amd64
+
+      - name: Build arm64 scan image
+        run: uv run offline-apt-feature build-scan-image --bundle bundle.yaml --arch arm64
+
+      - name: Scan arm64 image
+        run: trivy image --ignore-unfixed --exit-code 1 --severity "${TRIVY_SEVERITY}" offline-apt-scan:trixie-slim-v1-arm64
+
+      - name: Scan repository filesystem
+        run: trivy fs --ignore-unfixed --exit-code 1 --severity "${TRIVY_SEVERITY}" --scanners vuln,secret,misconfig --skip-dirs .venv .
+
+      - name: Test Feature on amd64
+        run: tools/run_feature_tests.sh amd64
+
+      - name: Test Feature on arm64
+        run: tools/run_feature_tests.sh arm64
+
+      - name: Test expected Feature failures
+        run: tools/run_failure_tests.sh
+
+      - name: Publish Feature to GHCR
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          bundle_tag="$(uv run python -c 'from pathlib import Path; from offline_apt_feature.models import load_bundle; print(load_bundle(Path("bundle.yaml")).tag)')"
+          echo "${GITHUB_TOKEN}" | oras login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
+          uv run devcontainer features publish ./src/offline-apt --registry ghcr.io --namespace "${GITHUB_REPOSITORY}"
+          oras cp --from-oci-layout "src/feature-oci-layout:1.0.0" "ghcr.io/${GITHUB_REPOSITORY}/offline-apt:1.0.0,${bundle_tag}"

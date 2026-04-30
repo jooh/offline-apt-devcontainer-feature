@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+*.egg-info/
+
+# Generated apt repository contents.
+src/offline-apt/repo/debian/trixie/*/*.deb
+src/offline-apt/repo/debian/trixie/*/Packages
+src/offline-apt/repo/debian/trixie/*/Packages.gz
+src/offline-apt/repo/debian/trixie/*/manifest.json
+src/offline-apt/repo/debian/trixie/*/apt-sources.txt
+
+# devcontainer-rs local publish artifacts.
+src/feature-*.tgz
+src/feature-oci-layout/
