@@ -143,11 +143,15 @@ uv run devcontainer features publish ./src/offline-apt \
   --namespace "$GITHUB_REPOSITORY"
 ```
 
-`devcontainer-rs` currently writes a local OCI layout. The workflow then copies
-that layout to GHCR with ORAS and applies both the Feature implementation tag
-and the bundle compatibility tag:
+`devcontainer-rs` currently writes a local OCI layout. The workflow normalizes
+the layout's Dev Containers media types, then copies that layout to GHCR with
+ORAS and applies both the Feature implementation tag and the bundle
+compatibility tag:
 
 ```bash
+uv run offline-apt-feature normalize-oci-layout \
+  --layout src/feature-oci-layout \
+  --feature-id offline-apt
 oras cp --from-oci-layout \
   "src/feature-oci-layout:1.0.0" \
   "ghcr.io/$GITHUB_REPOSITORY/offline-apt:1.0.0,trixie-slim-v1"

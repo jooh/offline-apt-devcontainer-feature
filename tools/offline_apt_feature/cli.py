@@ -7,6 +7,7 @@ import typer
 
 from offline_apt_feature.manifest import load_arch_manifest, resolved_version
 from offline_apt_feature.models import Bundle, load_bundle
+from offline_apt_feature.oci_layout import normalize_devcontainer_feature_layout
 from offline_apt_feature.resolver import build_bundle
 from offline_apt_feature.scan import build_scan_image as build_scan_image_impl
 
@@ -72,6 +73,31 @@ def build_scan_image(
     loaded = load_bundle(bundle)
     tag = build_scan_image_impl(loaded, project_root(), arch)
     typer.echo(tag)
+
+
+@app.command("normalize-oci-layout")
+def normalize_oci_layout(
+    layout: Path = typer.Option(
+        Path("src/feature-oci-layout"),
+        "--layout",
+        exists=True,
+        file_okay=False,
+        dir_okay=True,
+        readable=True,
+        writable=True,
+    ),
+    feature_id: str = typer.Option("offline-apt", "--feature-id"),
+) -> None:
+    """Normalize a local Feature OCI layout for Dev Containers clients."""
+    results = normalize_devcontainer_feature_layout(layout, feature_id=feature_id)
+    for result in results:
+        if result.changed:
+            typer.echo(
+                f"normalized sha256:{result.old_digest} "
+                f"to sha256:{result.new_digest}"
+            )
+        else:
+            typer.echo(f"already normalized sha256:{result.old_digest}")
 
 
 @app.command("render-test-scenarios")
