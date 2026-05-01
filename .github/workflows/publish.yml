@@ -93,4 +93,5 @@ jobs:
           bundle_tag="$(uv run python -c 'from pathlib import Path; from offline_apt_feature.models import load_bundle; print(load_bundle(Path("bundle.yaml")).tag)')"
           echo "${GITHUB_TOKEN}" | oras login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
           uv run devcontainer features publish ./src/offline-apt --registry ghcr.io --namespace "${GITHUB_REPOSITORY}"
+          uv run offline-apt-feature normalize-oci-layout --layout src/feature-oci-layout --feature-id offline-apt
           oras cp --from-oci-layout "src/feature-oci-layout:1.0.0" "ghcr.io/${GITHUB_REPOSITORY}/offline-apt:1.0.0,${bundle_tag}"

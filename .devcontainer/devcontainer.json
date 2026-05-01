@@ -1,0 +1,10 @@
+{
+  "name": "offline-apt-devcontainer-feature",
+  "image": "ghcr.io/astral-sh/uv:python3.12-trixie-slim",
+  "features": {
+    "ghcr.io/jooh/offline-apt-devcontainer-feature/offline-apt:1.0.0": {
+      "packages": "jq,ripgrep,shellcheck"
+    }
+  },
+  "postCreateCommand": "uv sync --locked"
+}
