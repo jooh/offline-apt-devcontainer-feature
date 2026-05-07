@@ -43,13 +43,14 @@ wheels = [
 
 [[package]]
 name = "devcontainer-rs"
-version = "0.0.37"
+version = "0.0.46"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0a/42/e80853d49b3765b116491eb7db08d7f70e3d455a420e6c6660d77027f2fc/devcontainer_rs-0.0.37-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:b37fd5c8b26fc91c39bd517e8e49ee61ed26fbbee4651ff3ae5ef0c1ecfe2888", size = 871526, upload-time = "2026-04-28T19:00:11.127Z" },
-    { url = "https://files.pythonhosted.org/packages/e8/c6/40770b22cd5f40bbdb743d6d78e59adee4b19dc21c0ed73d52f37f9b7534/devcontainer_rs-0.0.37-py3-none-macosx_11_0_arm64.whl", hash = "sha256:78d66add076a165ff958ed73edc8187d579e928143e82e4039226cc0ac4b0be5", size = 820116, upload-time = "2026-04-28T19:00:08.145Z" },
-    { url = "https://files.pythonhosted.org/packages/16/44/d3737ef7bbc74bd4b0b9ef2270e097056e844881ed0583462e8554bfa869/devcontainer_rs-0.0.37-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e96ab5f7a38e30fdb561e96c5441eeb5d0f4b293e7811bfbb034281965072b85", size = 909425, upload-time = "2026-04-28T19:00:06.589Z" },
-    { url = "https://files.pythonhosted.org/packages/4e/33/2c0c991afa46b7b55029915230ac5c50b32b03b88fce28df6ad816a127f3/devcontainer_rs-0.0.37-py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:ee11347d1c3176b6bbe012c19976a668e194425236ac5d464e86288e8422a1f4", size = 975526, upload-time = "2026-04-28T19:00:09.474Z" },
+    { url = "https://files.pythonhosted.org/packages/84/f9/20f0ebfaf38a0191b2e77fa1c069479605a6832f24ded02e0a4ce78699e9/devcontainer_rs-0.0.46-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:d02a05f7ea39df6d7baa44447a9c79c75f97befbc39a50e38d87aa6ce360a48f", size = 923322, upload-time = "2026-05-07T05:37:59.811Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/9c/38d59e5dd0e4ac7c4103561826fd473c51cb0f733bb8667671b0cf6c6e2f/devcontainer_rs-0.0.46-py3-none-macosx_11_0_arm64.whl", hash = "sha256:2905f907d2284500fa59672ed6b2d9c15abe8a58f1c050504949a9b0f137b18f", size = 884941, upload-time = "2026-05-07T05:38:01.53Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/35/e8f015f775b38b3238fe39c05dc13ae04f5a90552a0bb6a8cf6a655d4b2e/devcontainer_rs-0.0.46-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b01230155a2a9bdfdf28d98d2ae1fc088c6ca3b9defe1ef9bd95c4532ad9381a", size = 958518, upload-time = "2026-05-07T05:38:03.084Z" },
+    { url = "https://files.pythonhosted.org/packages/37/65/fc541aa73c423e21045d1cc3b0e039be7b6eb0fe398750fe5ec84629828f/devcontainer_rs-0.0.46-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f8ad790d264973db814ae6254c7fb5a9c30386dc4dd2bd9286dc76400765995c", size = 965190, upload-time = "2026-05-07T05:38:04.784Z" },
+    { url = "https://files.pythonhosted.org/packages/7f/2a/8b8228d1defe017b8cbd20c198adf0e8b2c256a6a85505e5ec647938eb3d/devcontainer_rs-0.0.46-py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:979b5291a181639739d54816d230b36dea606434bd73587faa55f9c2c0b05c9a", size = 1031976, upload-time = "2026-05-07T05:38:06.724Z" },
 ]
 
 [[package]]
@@ -87,7 +88,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "devcontainer-rs", specifier = "==0.0.37" },
+    { name = "devcontainer-rs", specifier = "==0.0.46" },
     { name = "pydantic", specifier = ">=2.7" },
     { name = "pyyaml", specifier = ">=6.0.1" },
     { name = "rich", specifier = ">=13.7" },
